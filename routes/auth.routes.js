@@ -27,24 +27,18 @@ router.post(
 
       const { login, password } = req.body
 
-      console.log(login, password)
-
       const isUser = await pool.query('select id from users where login = $1 and password = $2', [
         login,
         password,
       ])
 
-      console.log('isUser', isUser)
-
       if (!isUser.rowCount) {
         return res.status(401).json({ message: 'Unauthorized' })
       }
 
-      const token = await jwt.sign({ login: login }, config.get('jwtSecret'), {
+      const token = jwt.sign({ login: login }, config.get('jwtSecret'), {
         expiresIn: '1000',
       })
-
-      console.log(token)
 
       res.status(200).json({ jwt: token, login: login })
     } catch (e) {
@@ -77,9 +71,6 @@ router.post(
       const checkLogin = await pool.query('SELECT id FROM users WHERE login = $1', [login])
       const checkEmail = await pool.query('SELECT id FROM users WHERE email = $1', [email])
 
-      console.log(1111, checkLogin)
-      console.log(222, checkEmail)
-
       if (checkLogin.rowCount !== 0 || checkEmail.rowCount !== 0) {
         return res.status(409).json({ message: 'login or email already exist' })
       }
@@ -89,7 +80,7 @@ router.post(
         [login, password, firstName, lastName, email],
       )
 
-      const token = await jwt.sign({ login: login }, config.get('jwtSecret'), {
+      const token = jwt.sign({ login: login }, config.get('jwtSecret'), {
         expiresIn: '1000',
       })
 

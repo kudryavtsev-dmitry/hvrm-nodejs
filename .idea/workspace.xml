@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8a9123f-2b9a-4470-a149-fc1edc5cdbbc" name="Default Changelist" comment="">
+    <list default="true" id="699ccacc-fde1-4f91-9b75-94fff87d24d1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/routes/vm.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/hvrm-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hvrm-server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JsFlowSettings">
-    <service-enabled>true</service-enabled>
-    <exe-path />
-    <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
-  </component>
-  <component name="ProjectId" id="1ixqsnnnASLZrut2EujSz4CvizK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1jaZq5Zev6RK3l6pORYoW8a1ZGo" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -35,7 +29,6 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -43,45 +36,23 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Projects\hvrm-master\hvrm-server\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d8a9123f-2b9a-4470-a149-fc1edc5cdbbc" name="Default Changelist" comment="" />
-      <created>1602859803176</created>
+      <changelist id="699ccacc-fde1-4f91-9b75-94fff87d24d1" name="Default Changelist" comment="" />
+      <created>1604044351071</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1602859803176</updated>
-      <workItem from="1602859805422" duration="927000" />
-      <workItem from="1603101532336" duration="17000" />
-      <workItem from="1603351575396" duration="3206000" />
-      <workItem from="1603360516592" duration="5131000" />
-      <workItem from="1603376157567" duration="1877000" />
-      <workItem from="1603435691391" duration="7067000" />
-      <workItem from="1603454461314" duration="943000" />
-      <workItem from="1603460420900" duration="4035000" />
-      <workItem from="1603697099822" duration="11383000" />
-      <workItem from="1603723802838" duration="1428000" />
-      <workItem from="1603880387982" duration="2215000" />
+      <updated>1604044351071</updated>
+      <workItem from="1604044352167" duration="10671000" />
+      <workItem from="1604069577784" duration="934000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
