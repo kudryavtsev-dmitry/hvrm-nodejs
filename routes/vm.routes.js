@@ -12,8 +12,7 @@ const getVMData = (res) =>{
 
   const machines = iconv.decode(vmdata, 'CP866')
 
-
-  if(!Array.isArray(machines)){
+  if(!Array.isArray(JSON.parse(machines))){
     const machine = [JSON.parse(machines)]
     console.log(JSON.parse(machines))
     return   res.status(200).json(machine)
