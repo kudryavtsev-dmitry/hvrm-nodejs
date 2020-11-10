@@ -122,4 +122,21 @@ router.post('/restart', async (req, res) => {
   }
 })
 
+router.post('/update', async (req, res) => {
+  try {
+    const {name} = req.body
+
+   const selectedVM = execSync(`powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json)"`)
+
+    const machine = iconv.decode(selectedVM, 'CP866')
+
+    console.log(machine)
+
+    res.status(200).send(machine)
+
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+
 module.exports = router
