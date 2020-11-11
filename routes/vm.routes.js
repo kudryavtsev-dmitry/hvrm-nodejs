@@ -20,11 +20,17 @@ const getVMData = (res) =>{
   res.status(200).send(machines)
 }
 
+updateVM = (res , name) =>{
+  const selectedVM = execSync(`powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json)"`)
+
+  const machine = iconv.decode(selectedVM, 'CP866')
+
+  res.status(200).send(machine)
+}
 router.get('/', async (req, res) => {
   try {
-    console.log('working')
-
-    getVMData(res)
+    console.log('req')
+   getVMData(res)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -36,7 +42,9 @@ router.post('/start', async (req, res) => {
 
     execSync(`powershell.exe -command "(Start-VM -Name '${name}'    )"`)
 
-    getVMData(res)
+    updateVM(res,name)
+
+    // getVMData(res)
 
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
