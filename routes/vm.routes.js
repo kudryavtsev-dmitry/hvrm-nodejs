@@ -4,24 +4,25 @@ const iconv = require('iconv-lite')
 
 const router = Router()
 
-
-const getVMData = (res) =>{
+const getVMData = (res) => {
   const vmdata = execSync(
     'powershell.exe -command "(Get-VM |select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json     )"',
   )
 
   const machines = iconv.decode(vmdata, 'CP866')
 
-  if(!Array.isArray(JSON.parse(machines))){
+  if (!Array.isArray(JSON.parse(machines))) {
     const machine = [JSON.parse(machines)]
     console.log(JSON.parse(machines))
-    return   res.status(200).json(machine)
+    return res.status(200).json(machine)
   }
   res.status(200).send(machines)
 }
 
-updateVM = (res , name) =>{
-  const selectedVM = execSync(`powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json)"`)
+const updateVM = (res, name) => {
+  const selectedVM = execSync(
+    `powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version | ConvertTo-Json)"`,
+  )
 
   const machine = iconv.decode(selectedVM, 'CP866')
 
@@ -30,7 +31,7 @@ updateVM = (res , name) =>{
 router.get('/', async (req, res) => {
   try {
     console.log('req')
-   getVMData(res)
+    getVMData(res)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -38,14 +39,11 @@ router.get('/', async (req, res) => {
 
 router.post('/start', async (req, res) => {
   try {
-    const {name} = req.body
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Start-VM -Name '${name}'    )"`)
 
-    updateVM(res,name)
-
-    // getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -53,25 +51,22 @@ router.post('/start', async (req, res) => {
 
 router.post('/stop', async (req, res) => {
   try {
-    const {name} = req.body
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Stop-VM -Name '${name}' -TurnOff)"`)
 
-    getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
 })
 router.post('/suspend', async (req, res) => {
   try {
-    const {name} = req.body
-
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Suspend-VM -Name '${name}')"`)
 
-    getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -79,13 +74,11 @@ router.post('/suspend', async (req, res) => {
 
 router.post('/resume', async (req, res) => {
   try {
-    const {name} = req.body
-
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Resume-VM -Name '${name}')"`)
 
-    getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -93,13 +86,11 @@ router.post('/resume', async (req, res) => {
 
 router.post('/save', async (req, res) => {
   try {
-    const {name} = req.body
-
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Save-VM -Name '${name}')"`)
 
-    getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -107,11 +98,11 @@ router.post('/save', async (req, res) => {
 
 router.post('/shutdown', async (req, res) => {
   try {
-    const {name} = req.body
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Stop-VM -Name '${name}' -Force)"`)
 
-    getVMData(res)
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -119,12 +110,11 @@ router.post('/shutdown', async (req, res) => {
 
 router.post('/restart', async (req, res) => {
   try {
-    const {name} = req.body
+    const { name } = req.body
 
     execSync(`powershell.exe -command "(Restart-VM -Name '${name}')"`)
 
-    getVMData(res)
-
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
@@ -132,16 +122,55 @@ router.post('/restart', async (req, res) => {
 
 router.post('/update', async (req, res) => {
   try {
-    const {name} = req.body
+    const { name } = req.body
 
-   const selectedVM = execSync(`powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json)"`)
+    updateVM(res, name)
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+router.post('/add-memory', async (req, res) => {
+  try {
+    const { name, size } = req.body
 
-    const machine = iconv.decode(selectedVM, 'CP866')
+    console.log(name, size)
 
-    console.log(machine)
+    execSync(
+      `powershell.exe -command "(Set-VMMemory '${name}' -DynamicMemoryEnabled $false -StartupBytes ${size}MB)"`,
+    )
 
-    res.status(200).send(machine)
+    updateVM(res, name)
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+router.post('/get-memory', async (req, res) => {
+  try {
+    const { name } = req.body
 
+    console.log(name)
+
+    const memory = execSync(
+      `powershell.exe -command "(Get-VMMemory '${name}'| select DynamicMemoryEnabled , Buffer, Priority,  @{Name = 'maximum'; Expression={$_.Maximum/1Mb}} ,  @{Name = 'minimum'; Expression={$_.Minimum/1Mb}},  @{Name = 'startup'; Expression={$_.Startup/1Mb}}    | ConvertTo-Json)"`,
+    )
+
+    res.status(200).send(memory)
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+
+router.post('/dynamic-memory', async (req, res) => {
+  try {
+    const { name, min, max, startup, priority, buffer } = req.body
+
+    console.log(name, min, max, startup, priority, buffer)
+
+    execSync(
+      `powershell.exe -command "(Set-VMMemory '${name}' -DynamicMemoryEnabled $true -MinimumBytes ${min}MB  -StartupBytes ${startup}MB -MaximumBytes ${max}MB -Priority ${priority} -Buffer ${buffer} )"`,
+    )
+
+    updateVM(res, name)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
