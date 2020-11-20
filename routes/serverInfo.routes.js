@@ -6,7 +6,7 @@ const router = Router()
 router.get('/memory', async (req, res) => {
   try {
     const memory = execSync(
-      `powershell.exe -command "(Get-ComputerInfo  -Property OsFreePhysicalMemory | ConvertTo-Json )"`,
+      `powershell.exe -command "(Get-ComputerInfo | select @{Name = 'free'; Expression={$_.OsFreePhysicalMemory/1024}},@{Name = 'total'; Expression={$_.OsTotalVisibleMemorySize/1024}} | ConvertTo-Json )"`,
     )
 
     res.status(200).send(memory)

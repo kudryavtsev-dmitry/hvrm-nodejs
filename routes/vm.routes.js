@@ -6,7 +6,7 @@ const router = Router()
 
 const getVMData = (res) => {
   const vmdata = execSync(
-    'powershell.exe -command "(Get-VM |select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version| ConvertTo-Json     )"',
+    `powershell.exe -command "(Get-VM |select Name , State, CPUUsage, @{Name = 'MemoryAssigned'; Expression={$_.MemoryAssigned/1Mb}}, Uptime, Status , Version| ConvertTo-Json     )"`,
   )
 
   const machines = iconv.decode(vmdata, 'CP866')
@@ -20,8 +20,10 @@ const getVMData = (res) => {
 }
 
 const updateVM = (res, name) => {
+  console.log('upd')
+
   const selectedVM = execSync(
-    `powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, MemoryAssigned, Uptime, Status , Version | ConvertTo-Json)"`,
+    `powershell.exe -command "(Get-VM -Name '${name}'|  select Name , State, CPUUsage, @{Name = 'MemoryAssigned'; Expression={$_.MemoryAssigned/1Mb}}, Uptime, Status , Version | ConvertTo-Json)"`,
   )
 
   const machine = iconv.decode(selectedVM, 'CP866')
@@ -136,8 +138,10 @@ router.post('/add-memory', async (req, res) => {
     console.log(name, size)
 
     execSync(
-      `powershell.exe -command "(Set-VMMemory '${name}' -DynamicMemoryEnabled $false -StartupBytes ${size}MB)"`,
+      `powershell.exe -command "(Set-VMMemory '${name}' -DynamicMemoryEnabled $false  -StartupBytes ${size}MB)"`,
     )
+
+    console.log(1)
 
     updateVM(res, name)
   } catch (error) {
@@ -171,6 +175,22 @@ router.post('/dynamic-memory', async (req, res) => {
     )
 
     updateVM(res, name)
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+
+router.post('/hard-disk', async (req, res) => {
+  try {
+    const { name } = req.body
+
+    console.log(name)
+
+    const disk = execSync(
+      `powershell.exe -command "(Get-VM -VMName '${name}'| Select-Object vmid | Get-VHD | select @{Name = 'size'; Expression={$_.Size/1Gb}} , @{Name = 'fileSize'; Expression={$_.FileSize/1Gb}} | ConvertTo-Json )"`,
+    )
+
+    res.status(200).send(disk)
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
