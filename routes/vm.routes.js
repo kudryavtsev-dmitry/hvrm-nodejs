@@ -187,7 +187,7 @@ router.post('/hard-disk', async (req, res) => {
     console.log(name)
 
     const disk = execSync(
-      `powershell.exe -command "(Get-VM -VMName '${name}'| Select-Object vmid | Get-VHD | select @{Name = 'size'; Expression={$_.Size/1Gb}} , @{Name = 'fileSize'; Expression={$_.FileSize/1Gb}} | ConvertTo-Json )"`,
+      `powershell.exe -command "(Get-VM -VMName '${name}'| Select-Object vmid | Get-VHD | select @{Name = 'size'; Expression={$_.Size/1Gb}} , @{Name = 'fileSize'; Expression={$_.FileSize/1Gb}}, Path | ConvertTo-Json )"`,
     )
 
     res.status(200).send(disk)
@@ -196,4 +196,52 @@ router.post('/hard-disk', async (req, res) => {
   }
 })
 
+router.post('/hard-disk/resize', async (req, res) => {
+  try {
+    const { path, size } = req.body
+
+    console.log(path, size)
+
+    execSync(
+      `powershell.exe -command "(Resize-VHD -Path '${path}' -SizeBytes ${size}GB | ConvertTo-Json )"`,
+    )
+
+    res.status(200).json({ message: 'resize success' })
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
+router.post('/hard-disk/convert', async (req, res) => {
+  try {
+    const { path } = req.body
+
+    console.log(path)
+
+    let newPath = path.split('.')
+
+    if (newPath[newPath.length - 1] === 'vhdx') {
+      newPath.splice([newPath.length - 1], 1, 'vhd')
+      console.log(222, newPath.join('.'), 3333, path)
+      execSync(
+        `powershell.exe -command "(Convert-VHD -Path '${path}' -VHDType Dynamic -DestinationPath '${newPath.join(
+          '.',
+        )}' -DeleteSource )"`,
+      )
+      res.status(200).json({ message: 'convert success' })
+    } else {
+      newPath.splice([newPath.length - 1], 1, 'vhdx')
+      console.log(222, newPath.join('.'), 3333, path)
+      execSync(
+        `powershell.exe -command "(Convert-VHD -Path '${path}' -DestinationPath '${newPath.join(
+          '.',
+        )}'| ConvertTo-Json )"`,
+      )
+      res.status(200).json({ message: 'convert success' })
+    }
+
+    // res.status(200).json({ message: 'convert success' })
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
 module.exports = router
