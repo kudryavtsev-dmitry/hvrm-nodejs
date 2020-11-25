@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { execSync } = require('child_process')
+const { execSync, exec } = require('child_process')
 const iconv = require('iconv-lite')
 
 const router = Router()
@@ -17,6 +17,19 @@ const getVMData = (res) => {
     return res.status(200).json(machine)
   }
   res.status(200).send(machines)
+}
+
+const changeType = (name, path, newPath, vhdtype) => {
+  execSync(
+    `powershell.exe -command "(Convert-VHD -Path '${path}'  -DestinationPath '${newPath}' -VHDType ${vhdtype} -DeleteSource)"`,
+  )
+  execSync(
+    `powershell.exe -command "( Get-VMHardDiskDrive -VMName '${name}' | Remove-VMHardDiskDrive)"`,
+  )
+
+  execSync(
+    `powershell.exe -command "(Add-VMHardDiskDrive -VMName '${name}' -Path '${newPath}' )"`,
+  )
 }
 
 const updateVM = (res, name) => {
@@ -187,7 +200,7 @@ router.post('/hard-disk', async (req, res) => {
     console.log(name)
 
     const disk = execSync(
-      `powershell.exe -command "(Get-VM -VMName '${name}'| Select-Object vmid | Get-VHD | select @{Name = 'size'; Expression={$_.Size/1Gb}} , @{Name = 'fileSize'; Expression={$_.FileSize/1Gb}}, Path | ConvertTo-Json )"`,
+      `powershell.exe -command "(Get-VM -VMName '${name}'| Select-Object vmid | Get-VHD | select @{Name = 'size'; Expression={$_.Size/1Gb}} , @{Name = 'fileSize'; Expression={$_.FileSize/1Gb}}, Path, VhdType, VhdFormat | ConvertTo-Json )"`,
     )
 
     res.status(200).send(disk)
@@ -202,44 +215,111 @@ router.post('/hard-disk/resize', async (req, res) => {
 
     console.log(path, size)
 
-    execSync(
-      `powershell.exe -command "(Resize-VHD -Path '${path}' -SizeBytes ${size}GB | ConvertTo-Json )"`,
+    exec(
+      `powershell.exe -command "(Resize-VHD -Path '${path}' -SizeBytes ${size}GB )"`,
+      (error, stdout, stderr) => {
+        if (error) {
+          return res.status(400).json({ message: 'Bad Request' })
+        }
+        if (stderr) {
+          return res.status(400).json({ message: 'Bad Request' })
+        } else {
+          res.status(200).json({ message: 'resize success' })
+        }
+      },
     )
-
-    res.status(200).json({ message: 'resize success' })
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }
 })
 router.post('/hard-disk/convert', async (req, res) => {
   try {
-    const { path } = req.body
+    const { path, name } = req.body
 
-    console.log(path)
+    let changedPath = path.split('.')
 
-    let newPath = path.split('.')
+    if (changedPath[changedPath.length - 1] === 'vhdx') {
+      changedPath.splice([changedPath.length - 1], 1, 'vhd')
 
-    if (newPath[newPath.length - 1] === 'vhdx') {
-      newPath.splice([newPath.length - 1], 1, 'vhd')
-      console.log(222, newPath.join('.'), 3333, path)
+      const newPath = changedPath.join('.')
+
+      console.log(path, name)
+
       execSync(
-        `powershell.exe -command "(Convert-VHD -Path '${path}' -VHDType Dynamic -DestinationPath '${newPath.join(
-          '.',
-        )}' -DeleteSource )"`,
+        `powershell.exe -command "(Convert-VHD -Path '${path}'  -DestinationPath '${newPath}' -DeleteSource )"`,
       )
+
+      execSync(
+        `powershell.exe -command "( Get-VMHardDiskDrive -VMName '${name}' | Remove-VMHardDiskDrive)"`,
+      )
+
+      execSync(
+        `powershell.exe -command "(Add-VMHardDiskDrive -VMName '${name}' -Path '${newPath}' )"`,
+      )
+      res.status(200).json({ message: 'convert success' })
+    } else if (changedPath[changedPath.length - 1] === 'vhd') {
+      changedPath.splice([changedPath.length - 1], 1, 'vhdx')
+
+      const newPath = changedPath.join('.')
+      console.log(name)
+
+      execSync(
+        `powershell.exe -command "(Convert-VHD -Path '${path}'  -DestinationPath '${newPath}' -DeleteSource)"`,
+      )
+
+      execSync(
+        `powershell.exe -command "( Get-VMHardDiskDrive -VMName '${name}' | Remove-VMHardDiskDrive)"`,
+      )
+
+      execSync(
+        `powershell.exe -command "(Add-VMHardDiskDrive -VMName '${name}' -Path '${newPath}' )"`,
+      )
+
       res.status(200).json({ message: 'convert success' })
     } else {
-      newPath.splice([newPath.length - 1], 1, 'vhdx')
-      console.log(222, newPath.join('.'), 3333, path)
-      execSync(
-        `powershell.exe -command "(Convert-VHD -Path '${path}' -DestinationPath '${newPath.join(
-          '.',
-        )}'| ConvertTo-Json )"`,
-      )
-      res.status(200).json({ message: 'convert success' })
+      res.status(400).json({ message: 'Bad Request' })
     }
+  } catch (error) {
+    res.status(400).json({ message: 'Bad Request' })
+  }
+})
 
-    // res.status(200).json({ message: 'convert success' })
+router.post('/hard-disk/type', async (req, res) => {
+  try {
+    const { path, name, type } = req.body
+
+    console.log(path, name, type)
+
+    if (type === 3) {
+      if (path.includes('.Fixed')) {
+        const clearPath = path.replace('.Fixed', '')
+        const newName = `${name}.Dynamic`
+        const newPath = clearPath.replace(name, newName)
+
+        changeType(name, path, newPath, 'Dynamic')
+
+        res.status(200).json({ message: 'convert success' })
+      } else {
+        const newName = `${name}.Dynamic`
+        const newPath = path.replace(name, newName)
+        changeType(name, path, newPath, 'Dynamic')
+        res.status(200).json({ message: 'convert success' })
+      }
+    } else if (type === 2) {
+      if (path.includes('.Dynamic')) {
+        const clearPath = path.replace('.Dynamic', '')
+        const newName = `${name}.Fixed`
+        const newPath = clearPath.replace(name, newName)
+
+        changeType(name, path, newPath, 'Fixed')
+        res.status(200).json({ message: 'convert success' })
+      } else {
+        const newName = `${name}.Fixed`
+        const newPath = path.replace(name, newName)
+        changeType(name, path, newPath, 'Fixed')
+        res.status(200).json({ message: 'convert success' })
+      }
+    }
   } catch (error) {
     res.status(400).json({ message: 'Bad Request' })
   }

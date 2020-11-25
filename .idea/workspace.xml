@@ -77,6 +77,9 @@
       <workItem from="1605767759445" duration="9470000" />
       <workItem from="1605854548201" duration="3533000" />
       <workItem from="1606110906831" duration="15963000" />
+      <workItem from="1606143366243" duration="56000" />
+      <workItem from="1606197869702" duration="9277000" />
+      <workItem from="1606283408832" duration="8518000" />
     </task>
     <task id="LOCAL-00001" summary="added virtual machines route">
       <created>1604070742937</created>
@@ -127,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605883490884</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="changes">
+      <created>1606143387319</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1606143387319</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
