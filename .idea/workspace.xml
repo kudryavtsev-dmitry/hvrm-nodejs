@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="699ccacc-fde1-4f91-9b75-94fff87d24d1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/vm.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/hvrm-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hvrm-server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
+    <list default="true" id="699ccacc-fde1-4f91-9b75-94fff87d24d1" name="Default Changelist" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/vm.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/vm.routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1jaZq5Zev6RK3l6pORYoW8a1ZGo" />
   <component name="ProjectViewState">
@@ -29,14 +35,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Projects\hvrm-master\hvrm-server\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -48,11 +57,110 @@
       <option name="presentableId" value="Default" />
       <updated>1604044351071</updated>
       <workItem from="1604044352167" duration="10671000" />
-      <workItem from="1604069577784" duration="934000" />
+      <workItem from="1604069577784" duration="1045000" />
+      <workItem from="1604302617935" duration="2897000" />
+      <workItem from="1604392457217" duration="14219000" />
+      <workItem from="1604561001103" duration="633000" />
+      <workItem from="1604580164804" duration="1984000" />
+      <workItem from="1604646859280" duration="9353000" />
+      <workItem from="1604907697136" duration="5668000" />
+      <workItem from="1604992067062" duration="8298000" />
+      <workItem from="1605072794280" duration="8499000" />
+      <workItem from="1605163425341" duration="6031000" />
+      <workItem from="1605246678350" duration="12024000" />
+      <workItem from="1605509163895" duration="1413000" />
+      <workItem from="1605535796449" duration="47000" />
+      <workItem from="1605595400802" duration="5035000" />
+      <workItem from="1605681644858" duration="1213000" />
+      <workItem from="1605701142152" duration="614000" />
+      <workItem from="1605709195830" duration="1205000" />
+      <workItem from="1605767759445" duration="9470000" />
+      <workItem from="1605854548201" duration="3533000" />
+      <workItem from="1606110906831" duration="15963000" />
+      <workItem from="1606143366243" duration="56000" />
+      <workItem from="1606197869702" duration="9277000" />
+      <workItem from="1606283408832" duration="8518000" />
     </task>
+    <task id="LOCAL-00001" summary="added virtual machines route">
+      <created>1604070742937</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1604070742937</updated>
+    </task>
+    <task id="LOCAL-00002" summary="new routes">
+      <created>1604417741408</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604417741408</updated>
+    </task>
+    <task id="LOCAL-00003" summary="bug fixed">
+      <created>1604677143783</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604677143783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added updating machine">
+      <created>1605021921908</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1605021921908</updated>
+    </task>
+    <task id="LOCAL-00005" summary="changes">
+      <created>1605103659735</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1605103659735</updated>
+    </task>
+    <task id="LOCAL-00006" summary="changes">
+      <created>1605623857329</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1605623857329</updated>
+    </task>
+    <task id="LOCAL-00007" summary="changes">
+      <created>1605883490884</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1605883490884</updated>
+    </task>
+    <task id="LOCAL-00008" summary="changes">
+      <created>1606143387319</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1606143387319</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added virtual machines route" />
+    <MESSAGE value="new routes" />
+    <MESSAGE value="bug fixed" />
+    <MESSAGE value="added updating machine" />
+    <MESSAGE value="changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes" />
   </component>
 </project>

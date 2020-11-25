@@ -27,20 +27,23 @@ router.post(
 
       const { login, password } = req.body
 
-      const isUser = await pool.query('select id from users where login = $1 and password = $2', [
+      const isUser = await pool.query('select * from users where login = $1 and password = $2', [
         login,
         password,
       ])
+
+      const {firstname, lastname, email} = isUser.rows[0]
 
       if (!isUser.rowCount) {
         return res.status(401).json({ message: 'Unauthorized' })
       }
 
+
       const token = jwt.sign({ login: login }, config.get('jwtSecret'), {
         expiresIn: '1000',
       })
 
-      res.status(200).json({ jwt: token, login: login })
+      res.status(200).json({ jwt: token, login: login, firstName : firstname, lastName: lastname, email:email })
     } catch (e) {
       res.status(400).json({ message: 'Bad Request' })
     }
